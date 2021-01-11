@@ -44,7 +44,7 @@ type withStack struct {
 }
 
 func (w withStack) Error() string {
-	return  w.error.Error()+w.stack
+	return  w.error.Error()
 }
 
 func (w withStack) Cause(err error) error {
@@ -63,6 +63,14 @@ func WithStack(err error) error {
 		error: err,
 		stack: caller(),
 	}
+}
+
+func Stack(err error)string{
+	e,ok:=err.(*withStack)
+	if ok{
+		return e.stack
+	}
+	return ""
 }
 
 func Wrap(err error, message string) error {
